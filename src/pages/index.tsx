@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Banner } from '@/components/Banner';
 import Head from 'next/head';
 import { Header } from "../components/Header";
 
@@ -13,7 +13,7 @@ export default function Home() {
             </Head>
             <main >
                 <Header />
-                <Text>Main nova</Text>
+                <Banner />
             </main>
         </>
     )

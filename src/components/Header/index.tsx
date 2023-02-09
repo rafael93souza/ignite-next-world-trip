@@ -7,7 +7,7 @@ import { RxCaretLeft } from 'react-icons/rx';
 export function Header() {
     const { asPath } = useNextRouter();
     const router = useRouter();
-    const [isShowButtonNavigate, setisShowButtonNavigate] = useState(true)
+    const [isShowButtonNavigate, setisShowButtonNavigate] = useState(false);
 
     useEffect(() => {
         if (asPath === "/") {
