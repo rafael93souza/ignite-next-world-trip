@@ -1,4 +1,6 @@
 import { Banner } from '@/components/Banner';
+import { SlidesConteiner } from '@/components/Slides';
+import { TravelsTypes } from '@/components/TravelsType';
 import Head from 'next/head';
 import { Header } from "../components/Header";
 
@@ -14,6 +16,8 @@ export default function Home() {
             <main >
                 <Header />
                 <Banner />
+                <TravelsTypes />
+                <SlidesConteiner />
             </main>
         </>
     )
