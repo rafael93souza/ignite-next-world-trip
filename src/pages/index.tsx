@@ -1,10 +1,40 @@
 import { Banner } from '@/components/Banner';
 import { SlidesConteiner } from '@/components/Slides';
 import { TravelsTypes } from '@/components/TravelsType';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { type } from 'os';
 import { Header } from "../components/Header";
 
-export default function Home() {
+interface CountryProps {
+    name?: {
+        common?: string,
+        official?: string,
+    }
+    region?: string;
+    subregion?: string;
+    translations?: {
+        por?: {
+            official: string;
+            common: string;
+        },
+    },
+    capital?: string[] | null | undefined;
+    flags?: {
+        png?: string;
+        svg?: string;
+    }
+}
+
+interface HomeProps {
+    europe: CountryProps[];
+    asia: CountryProps[];
+    america: CountryProps[];
+    africa: CountryProps[];
+    oceania: CountryProps[];
+}
+export default function Home({ europe, asia, america, africa, oceania }: HomeProps) {
+
     return (
         <>
             <Head>
@@ -21,4 +51,51 @@ export default function Home() {
             </main>
         </>
     )
+}
+
+
+export const getStaticProps: GetStaticProps = async () => {
+    const response: CountryProps[] = await (await fetch("https://restcountries.com/v3.1/all")).json();
+
+    const europe: CountryProps[] = [];
+    const asia: CountryProps[] = [];
+    const america: CountryProps[] = [];
+    const africa: CountryProps[] = [];
+    const oceania: CountryProps[] = [];
+
+
+    response.map((country: CountryProps) => {
+        const newCountry: CountryProps = {
+            name: country?.name,
+            region: country?.region,
+            subregion: country?.region,
+            translations: {
+                por: country?.translations?.por,
+            },
+            flags: country?.flags,
+            capital: country?.capital ? country.capital : null
+        }
+        switch (country?.region) {
+            case 'Europe':
+                europe.push(newCountry)
+                break;
+            case 'Asia':
+                asia.push(newCountry)
+                break;
+            case 'Americas':
+                america.push(newCountry)
+                break;
+            case 'Africa':
+                africa.push(newCountry)
+                break;
+            case 'Oceania':
+                oceania.push(newCountry)
+                break;
+        }
+    })
+
+    return {
+        props: { europe, asia, america, africa, oceania },
+        revalidate: 60 * 60 * 24 // 24 Horas
+    }
 }
