@@ -34,7 +34,7 @@ export function Slide() {
                         backgroundSize="cover"
                         backgroundPosition="center"
                         backgroundRepeat="no-repeat"
-                        h="500"
+                        h={["250", "350", "450", "500"]}
                         minW="100%"
                         flexDir="column"
                         align="center"
@@ -49,7 +49,7 @@ export function Slide() {
                         backgroundImage="https://c.wallhere.com/photos/0b/47/travel_light_night_canon_river_soft_long_hungary-955273.jpg!d"
                         backgroundSize="cover"
                         backgroundPosition="center"
-                        h="500"
+                        h={["250", "350", "450", "500"]}
                         minW="100%"
                     >
 
@@ -60,7 +60,7 @@ export function Slide() {
                         backgroundImage="https://c.wallhere.com/photos/15/8f/city_blue_two_sky_people_cloud_white_mountain-927319.jpg!d"
                         backgroundSize="cover"
                         backgroundPosition="center"
-                        h="500"
+                        h={["250", "350", "450", "500"]}
                         minW="100%"
                     >
 
@@ -71,7 +71,7 @@ export function Slide() {
                         backgroundImage="https://c.wallhere.com/photos/6b/98/people_mountain_snow_man_tree_tower_pine_forest-848914.jpg!d"
                         backgroundSize="cover"
                         backgroundPosition="center"
-                        h="500"
+                        h={["250", "350", "450", "500"]}
                         minW="100%"
                     >
 
@@ -82,7 +82,7 @@ export function Slide() {
                         backgroundImage="https://c.wallhere.com/photos/b6/2d/nikon_d5100_budapest_parlamento_hungr_a_danubio_rio_europa-1090289.jpg!d"
                         backgroundSize="cover"
                         backgroundPosition="center"
-                        h="500"
+                        h={["250", "350", "450", "500"]}
                         minW="100%"
                     >
                     </Flex>

@@ -13,7 +13,7 @@ export function SlidesConteiner() {
                 Então escolha seu continente
             </Text>
 
-            <Flex w="100%" maxW={1480} m="0 auto" h="700px" p="100" >
+            <Flex w="100%" mt="20px" maxW={1480} mx="auto" h={["250px", "350px", "450px", "700px"]} p={["0", "0", "0", "100"]} >
                 <Slide />
             </Flex>
         </>
