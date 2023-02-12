@@ -1,40 +1,37 @@
 import { Banner } from '@/components/Banner';
 import { SlidesConteiner } from '@/components/Slides';
 import { TravelsTypes } from '@/components/TravelsType';
+import { getPrismicClient } from '@/services/prismic';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { type } from 'os';
 import { Header } from "../components/Header";
+import { useEffect } from 'react';
+import { useContinents } from '@/contexts/continentsContexts';
 
 interface CountryProps {
-    name?: {
-        common?: string,
-        official?: string,
-    }
-    region?: string;
-    subregion?: string;
-    translations?: {
-        por?: {
-            official: string;
-            common: string;
-        },
-    },
-    capital?: string[] | null | undefined;
-    flags?: {
-        png?: string;
-        svg?: string;
-    }
+    uid: string;
+    slug: string
+    title: string;
+    subtitle: string;
+    description: string;
+    amount_of_countries: string;
+    amount_of_languages: string;
+    amount_of_cities: string;
+    image_home: string;
+    image_page: string;
 }
 
 interface HomeProps {
-    europe: CountryProps[];
-    asia: CountryProps[];
-    america: CountryProps[];
-    africa: CountryProps[];
-    oceania: CountryProps[];
-}
-export default function Home({ europe, asia, america, africa, oceania }: HomeProps) {
+    continentsAll: CountryProps[];
 
+}
+export default function Home({ continentsAll }: HomeProps) {
+    const { setContinents } = useContinents();
+    useEffect(() => {
+        if (continentsAll) {
+            setContinents(continentsAll)
+        }
+    }, [continentsAll, setContinents])
     return (
         <>
             <Head>
@@ -54,48 +51,32 @@ export default function Home({ europe, asia, america, africa, oceania }: HomePro
 }
 
 
-export const getStaticProps: GetStaticProps = async () => {
-    const response: CountryProps[] = await (await fetch("https://restcountries.com/v3.1/all")).json();
-
-    const europe: CountryProps[] = [];
-    const asia: CountryProps[] = [];
-    const america: CountryProps[] = [];
-    const africa: CountryProps[] = [];
-    const oceania: CountryProps[] = [];
-
-
-    response.map((country: CountryProps) => {
-        const newCountry: CountryProps = {
-            name: country?.name,
-            region: country?.region,
-            subregion: country?.region,
-            translations: {
-                por: country?.translations?.por,
-            },
-            flags: country?.flags,
-            capital: country?.capital ? country.capital : null
+export const getStaticProps: GetStaticProps = async ({ }) => {
+    const prismic = getPrismicClient({})
+    const continents = await prismic.getAllByType("continent", {
+        orderings: {
+            field: 'document.first_publication_date',
+            direction: 'asc',
         }
-        switch (country?.region) {
-            case 'Europe':
-                europe.push(newCountry)
-                break;
-            case 'Asia':
-                asia.push(newCountry)
-                break;
-            case 'Americas':
-                america.push(newCountry)
-                break;
-            case 'Africa':
-                africa.push(newCountry)
-                break;
-            case 'Oceania':
-                oceania.push(newCountry)
-                break;
+    });
+
+    const continentsFormart = continents.map((continent) => {
+        return {
+            uid: continent.uid,
+            slug: continent.uid,
+            title: continent.data.title[0].text,
+            subtitle: continent.data.subtitle[0].text,
+            description: continent.data.description[0].text,
+            amount_of_countries: continent.data.amount_of_countries,
+            amount_of_languages: continent.data.amount_of_languages,
+            amount_of_cities: continent.data.amount_of_cities,
+            image_home: continent.data?.["image-home"].url,
+            image_page: continent.data?.["image-page"].url
         }
-    })
+    });
 
     return {
-        props: { europe, asia, america, africa, oceania },
+        props: { continentsAll: continentsFormart },
         revalidate: 60 * 60 * 24 // 24 Horas
     }
 }
