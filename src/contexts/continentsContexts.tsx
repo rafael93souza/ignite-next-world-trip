@@ -4,21 +4,18 @@ interface ContinentsProviderProps {
     children: ReactNode;
 }
 interface Continent {
-    uid?: string;
-    first_publication_date: string | null;
+    uid: string;
+    slug: string
     title: string;
     subtitle: string;
     description: string;
     amount_of_countries: string;
     amount_of_languages: string;
     amount_of_cities: string;
-    image_home: string | {
-        url: string;
-    };
-    image_page: string | {
-        url: string;
-    };
+    image_home: string;
+    image_page: string;
 }
+
 interface ContinentsProps {
     continents: Continent[];
     setContinents: Dispatch<SetStateAction<Continent[]>>
