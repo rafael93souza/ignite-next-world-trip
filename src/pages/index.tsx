@@ -7,24 +7,10 @@ import Head from 'next/head';
 import { Header } from "../components/Header";
 import { useEffect } from 'react';
 import { useContinents } from '@/contexts/continentsContexts';
+import { continentObjectFormarter } from '@/utils/functions';
+import { HomeProps } from '@/interface/homeInterface';
 
-interface CountryProps {
-    uid: string;
-    slug: string
-    title: string;
-    subtitle: string;
-    description: string;
-    amount_of_countries: string;
-    amount_of_languages: string;
-    amount_of_cities: string;
-    image_home: string;
-    image_page: string;
-}
 
-interface HomeProps {
-    continentsAll: CountryProps[];
-
-}
 export default function Home({ continentsAll }: HomeProps) {
     const { setContinents } = useContinents();
     useEffect(() => {
@@ -61,18 +47,7 @@ export const getStaticProps: GetStaticProps = async ({ }) => {
     });
 
     const continentsFormart = continents.map((continent) => {
-        return {
-            uid: continent.uid,
-            slug: continent.uid,
-            title: continent.data.title[0].text,
-            subtitle: continent.data.subtitle[0].text,
-            description: continent.data.description[0].text,
-            amount_of_countries: continent.data.amount_of_countries,
-            amount_of_languages: continent.data.amount_of_languages,
-            amount_of_cities: continent.data.amount_of_cities,
-            image_home: continent.data?.["image-home"].url,
-            image_page: continent.data?.["image-page"].url
-        }
+        return continentObjectFormarter(continent)
     });
 
     return {
