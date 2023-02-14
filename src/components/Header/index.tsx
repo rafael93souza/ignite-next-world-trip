@@ -26,12 +26,12 @@ export function Header() {
                     variant={"unstyled"}
                     onClick={() => router.push("/")} />}
             <Image
-                src="./logo.svg"
+                src="../logo.svg"
                 alt="Logo World Trip"
                 m="0 auto"
                 maxW={185}
                 cursor="pointer"
-                onClick={() => router.push("/home")}
+                onClick={() => router.push("/")}
             />
         </Flex>
     )

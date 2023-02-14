@@ -3,7 +3,7 @@ import { createContext, useContext, useState, ReactNode, SetStateAction, Dispatc
 interface ContinentsProviderProps {
     children: ReactNode;
 }
-interface Continent {
+export interface Continent {
     uid: string;
     slug: string
     title: string;
@@ -23,7 +23,7 @@ interface ContinentsProps {
 export const ContinentsContext = createContext<ContinentsProps>({} as ContinentsProps);
 
 export function ContinentsProvider({ children }: ContinentsProviderProps) {
-    const [continents, setContinents] = useState<Continent[]>([])
+    const [continents, setContinents] = useState<Continent[]>([]);
     return (
         <ContinentsContext.Provider value={{ continents, setContinents }}>
             {children}
