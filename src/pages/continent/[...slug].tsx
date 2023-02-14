@@ -1,5 +1,6 @@
 import { BannerContinent } from "@/components/BannerContinent";
 import { ContentContinent } from "@/components/ContentContinent";
+import { CountrySlidesConteiner } from "@/components/CountrySlides";
 import { Header } from "@/components/Header";
 import { Continent, useContinents } from "@/contexts/continentsContexts";
 import { ContinentPageProps, CountryProps } from "@/interface/continentInterfaces";
@@ -31,6 +32,7 @@ export default function ContinentPage({ slug, continentFormated }: ContinentPage
             try {
                 const response: CountryProps[] = await (await fetch(`https://restcountries.com/v3.1/region/${slug}`))
                     .json();
+                console.log(response)
                 const continent: CountryProps[] = response.map((country: CountryProps) => {
                     return {
                         name: country?.name,
@@ -80,6 +82,8 @@ export default function ContinentPage({ slug, continentFormated }: ContinentPage
                                 languages={continentSelected?.amount_of_languages}
                                 cities={continentSelected?.amount_of_cities}
                             />
+
+                            <CountrySlidesConteiner />
                         </>
                     )
 
