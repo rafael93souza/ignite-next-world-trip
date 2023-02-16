@@ -3,17 +3,17 @@ import { ContentContinent } from "@/components/ContentContinent";
 import { CountrySlidesConteiner } from "@/components/CountrySlides";
 import { Header } from "@/components/Header";
 import { Continent, useContinents } from "@/contexts/continentsContexts";
-import { ContinentPageProps, CountryProps } from "@/interface/continentInterfaces";
+import { ContinentPageProps, CountryPropsFormated } from "@/interface/continentInterfaces";
 import { getPrismicClient } from "@/services/prismic";
-import { continentObjectFormarter } from "@/utils/functions";
+import { continentObjectFormarter, countryObjectFormarter } from "@/utils/functions";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
-export default function ContinentPage({ slug, continentFormated }: ContinentPageProps) {
+export default function ContinentPage({ slug, continentFormated, countriesFormated }: ContinentPageProps) {
     const { continents } = useContinents();
     const [isShowContinent, setIsShowContinent] = useState(false);
-    const [countrys, setCountrys] = useState<CountryProps[]>([]);
+    const [countrys, setCountrys] = useState<CountryPropsFormated[]>([]);
     const [continentSelected, setCountinentSelected] = useState<Continent>({
         uid: "",
         slug: "",
@@ -28,32 +28,8 @@ export default function ContinentPage({ slug, continentFormated }: ContinentPage
     });
 
     useEffect(() => {
-        async function getCountrys() {
-            try {
-                const response: CountryProps[] = await (await fetch(`https://restcountries.com/v3.1/region/${slug}`))
-                    .json();
-                console.log(response)
-                const continent: CountryProps[] = response.map((country: CountryProps) => {
-                    return {
-                        name: country?.name,
-                        region: country?.region,
-                        subregion: country?.region,
-                        translations: {
-                            por: country?.translations?.por,
-                        },
-                        flags: country?.flags,
-                        capital: country?.capital ? country.capital : null
-                    } as CountryProps
-                });
-                setCountrys(continent)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        if (slug) {
-            getCountrys()
-        }
-    }, [slug, continents]);
+        setCountrys(countriesFormated)
+    }, [countriesFormated]);
 
     useEffect(() => {
         setCountinentSelected(continentFormated)
@@ -83,7 +59,7 @@ export default function ContinentPage({ slug, continentFormated }: ContinentPage
                                 cities={continentSelected?.amount_of_cities}
                             />
 
-                            <CountrySlidesConteiner />
+                            <CountrySlidesConteiner countrys={countrys} />
                         </>
                     )
 
@@ -110,10 +86,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         const prismic = getPrismicClient({})
         const continents = await prismic.getAllByUIDs("continent", params?.slug as []);
         const countries = await prismic.getAllByTag(tags)
-        console.log(countries)
+        const countriesFormated = countries.map((countrie) => {
+            return countryObjectFormarter(countrie)
+        });
         const continentFormated = continentObjectFormarter(continents[0])
         return {
-            props: { slug: params?.slug, continentFormated }
+            props: { slug: params?.slug, continentFormated, countriesFormated }
         }
     } catch (error) {
         console.log(error)
