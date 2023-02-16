@@ -30,8 +30,26 @@ export interface Continent {
     image_page: string;
 }
 
+export interface CountryPropsFormated {
+    uid: string | null;
+    slug: string | null;
+    name: string;
+    capital: string;
+    description: string;
+    continent: string;
+    flag: string;
+    image: string;
+}
 
 export interface ContinentPageProps {
     slug: string;
     continentFormated: Continent
+    countriesFormated: CountryPropsFormated[] | [];
+}
+
+export interface CountrySlidesConteinerProps {
+    countrys: CountryPropsFormated[] | [];
+}
+export interface SlidesConteinerProps {
+    countrys: CountryPropsFormated[] | [];
 }

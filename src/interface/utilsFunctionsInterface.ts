@@ -11,5 +11,15 @@ export interface ContinentPropsFormated {
     image_home: string;
     image_page: string;
 }
+export interface CountryPropsFormated {
+    uid: string | null;
+    slug: string | null;
+    name: string;
+    capital: string;
+    description: string;
+    continent: string;
+    flag: string;
+    image: string;
+}
 export interface UtilsFunctionContinentProps extends PrismicDocument { }
-
+export interface UtilsFunctionCountryProps extends PrismicDocument { }
