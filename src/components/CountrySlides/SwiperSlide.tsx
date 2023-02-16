@@ -2,29 +2,32 @@ import { Flex, Image, Text, useBreakpointValue } from "@chakra-ui/react";
 import Link from "next/link";
 
 interface CountryProps {
-    uid: string;
-    slug: string
-    title: string;
-    subtitle: string;
+    uid: string | null;
+    slug: string | null;
+    name: string;
+    capital: string;
     description: string;
-    amount_of_countries: string;
-    amount_of_languages: string;
-    amount_of_cities: string;
-    image_home: string;
-    image_page: string;
+    continent: string;
+    flag: string;
+    image: string;
 }
 interface SwiperSlideProps {
-    continent: CountryProps
+    countrys: CountryProps
 }
-export function SwiperSlideComponentCountrie({ continent }: SwiperSlideProps) {
+export function SwiperSlideComponentCountrie({ countrys }: SwiperSlideProps) {
     const isWideVersion = useBreakpointValue({ base: false, sm: false, md: false, lg: true, xl: true });
     return (
-        <Link href={`/continent/${continent.uid}`}>
-            <Flex w="256px" h="279px" flexDir="column" borderRadius="5px" border="1px solid rgba(255, 186, 8, 0.5);"
+        <Link href={`/continent/${countrys.uid}`}>
+            <Flex
+                w="256px"
+                h="279px"
+                flexDir="column"
+                borderRadius="5px"
+                border="1px solid rgba(255, 186, 8, 0.5);"
                 m={isWideVersion ? "auto" : "0 auto"}
             >
                 <Flex
-                    backgroundImage={continent.image_home}
+                    backgroundImage={countrys.image}
                     backgroundSize="cover"
                     backgroundPosition="center"
                     backgroundRepeat="no-repeat"
@@ -46,13 +49,20 @@ export function SwiperSlideComponentCountrie({ continent }: SwiperSlideProps) {
                             color="primary.200"
                             fontSize={"20px"}
                         >
-                            {continent.title}
+                            {countrys.capital}
                         </Text>
                         <Text fontWeight="500" color="primary.300" fontSize={"16px"}>
-                            {continent.subtitle}
+                            {countrys.name}
                         </Text>
                     </Flex>
-                    <Image h="30px" w="30px" borderRadius="50%" src={continent.image_page} alt={`Bandeira do ${continent.title}`} />
+                    <Flex
+                        h="30px"
+                        w="30px"
+                        borderRadius="50%"
+                        backgroundImage={countrys.flag}
+                        backgroundSize="cover"
+                        backgroundPosition="center"
+                    />
                 </Flex>
             </Flex>
         </Link>

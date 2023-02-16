@@ -1,7 +1,8 @@
+import { CountrySlidesConteinerProps } from "@/interface/continentInterfaces";
 import { Flex, Text } from "@chakra-ui/react";
 import { Slide } from "./slide";
 
-export function CountrySlidesConteiner() {
+export function CountrySlidesConteiner({ countrys }: CountrySlidesConteinerProps) {
     return (
         <>
             <Text
@@ -21,7 +22,7 @@ export function CountrySlidesConteiner() {
                 h="auto"
                 p={["0", "0", "50"]}
             >
-                <Slide />
+                <Slide countrys={countrys} />
             </Flex>
         </>
     )

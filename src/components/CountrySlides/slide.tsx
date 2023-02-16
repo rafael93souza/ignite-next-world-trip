@@ -1,44 +1,35 @@
 import { useContinents } from "@/contexts/continentsContexts";
-import { Flex, useBreakpointValue } from "@chakra-ui/react";
-import { Autoplay, Keyboard, Navigation, Pagination, Mousewheel } from "swiper";
-import "swiper/css";
-import "swiper/css/autoplay";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Swiper, SwiperSlide, } from "swiper/react";
+import { SlidesConteinerProps } from "@/interface/continentInterfaces";
+import { Flex, Text, useBreakpointValue } from "@chakra-ui/react";
 import { SwiperSlideComponentCountrie } from "./SwiperSlide";
+import { CircularProgress, CircularProgressLabel } from '@chakra-ui/react'
 
-
-export function Slide() {
+export function Slide({ countrys }: SlidesConteinerProps) {
     const { continents } = useContinents();
     const isWideVersion = useBreakpointValue({ base: false, sm: false, md: false, lg: true, xl: true });
     return (
         <>
-            <Swiper
-                pagination={{
-                    clickable: true,
-                }}
-                autoHeight={true}
-                mousewheel={true}
-                loop={true}
-                direction={isWideVersion ? "horizontal" : "vertical"}
-                slidesPerView={isWideVersion ? 4 : 1}
-                style={{
-                    "--swiper-navigation-color": "#FFBA08",
-                    "--swiper-pagination-color": "#FFBA08",
-                } as object}
-                modules={[Mousewheel, Pagination]}
+            <Flex
+                flexDir={isWideVersion ? "row" : "column"}
+                flexWrap="wrap"
+                w="100%"
+                gap="48px"
+                h="100%"
+                justify="space-between"
             >
-                <Flex flexWrap="wrap" bg="pink.400" w="100%" h="100%">
-                    {continents.length && continents.map((continent) => {
-                        return (
-                            <SwiperSlide key={continent.uid}>
-                                <SwiperSlideComponentCountrie continent={continent} />
-                            </SwiperSlide>
-                        )
-                    })}
-                </Flex>
-            </Swiper>
+                {countrys?.length ? countrys.map((countrys) => {
+                    return (
+                        <SwiperSlideComponentCountrie countrys={countrys} key={countrys.uid} />
+                    )
+                })
+                    :
+                    <Flex flexDir="column" w="100%">
+                        <Text as="h1" m="0 auto" textAlign="center">Em breve você terá acesso as lindas cidades deste continente, Aguarde</Text>
+                        <CircularProgress isIndeterminate color='primary.100' m="30px auto" />
+                    </Flex>
+
+                }
+            </Flex>
         </>
     );
 }
