@@ -102,9 +102,15 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+    let tags: string = "";
+    if (params?.slug) {
+        tags = params.slug[0] ? params.slug[0] : "";
+    }
     try {
         const prismic = getPrismicClient({})
         const continents = await prismic.getAllByUIDs("continent", params?.slug as []);
+        const countries = await prismic.getAllByTag(tags)
+        console.log(countries)
         const continentFormated = continentObjectFormarter(continents[0])
         return {
             props: { slug: params?.slug, continentFormated }
